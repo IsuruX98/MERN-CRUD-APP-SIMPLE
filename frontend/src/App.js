@@ -1,25 +1,31 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "axios"; //for server requests
 
 const App = () => {
   //States
+
+  //state of the display notes
   const [notes, setNotes] = useState([]);
+
+  //state of the create notes
   const [createForm, setCreateForm] = useState({
     title: "",
     body: "",
   });
+
+  //state of the update note
   const [updateForm, setUpdateForm] = useState({
     _id: null,
     title: "",
     body: "",
   });
 
-  //use effect
+  //use effect for getting the data every time page loads
   useEffect(() => {
     fetchNotes();
   });
 
-  //functions
+  //Display function
   const fetchNotes = async () => {
     //fetch the notes
     const res = await axios.get("http://localhost:3001/read");
@@ -27,6 +33,7 @@ const App = () => {
     setNotes(res.data.allNotes);
   };
 
+  //Create functions
   const updateCreateFormField = async (e) => {
     const { name, value } = e.target;
     setCreateForm({
@@ -52,6 +59,7 @@ const App = () => {
     });
   };
 
+  //Update functions
   const handleUpdateFieldChange = async (e) => {
     const { name, value } = e.target;
 
@@ -98,6 +106,7 @@ const App = () => {
     });
   };
 
+  //Delete functions
   const deleteNote = async (_id) => {
     //delete the note
     await axios.delete(`http://localhost:3001/delete/${_id}`);
